@@ -9,6 +9,7 @@ install.packages("ggplot2") #Graphic design
 library(readxl) #Excel reading
 library(raster) #Graphic design
 library(ggplot2) #Graphic design
+library(lmerTest) #Tests in Linear Mixed Effects Models
 
 #Data choice
 dir<-file.choose()
@@ -19,9 +20,8 @@ xlsx1<-read_excel(dir,sheet=1,col_names=TRUE)
 data<-as.data.frame(xlsx1)
 head(data)
 
-ols <-lm(data[,3]~ factor(Time)-1+factor(BL)+factor(CE), data = data)
-summary(ols)
 
+ols<- lmer(mir381 ~ factor(Time)+(1|BL), data = data, REML = FALSE)
 summary(ols)
 confint(ols)
 anova(ols)
@@ -29,7 +29,7 @@ r<-residuals(ols)
 fitted(ols)
 influence(ols)
 
-yhat <- ols$fitted
+yhat <- fitted(ols)
 
 yhat0<-yhat[1:5]
 m0<-mean(yhat0)
