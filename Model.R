@@ -21,7 +21,7 @@ data<-as.data.frame(xlsx1)
 head(data)
 
 
-ols<- lmer(mir381 ~ factor(Time)+(1|BL), data = data, REML = FALSE)
+ols<- lmer(mir381 ~ factor(Time)+(1|BL)+(1|CE), data = data, REML = TRUE)
 summary(ols)
 confint(ols)
 anova(ols)
